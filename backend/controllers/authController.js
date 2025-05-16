@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
 const user = require("../models/user");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 const SECRET_KEY = process.env.SECRET_KEY;
+
 const generateToken = (userId) => {
   return jwt.sign({ userId }, SECRET_KEY, {
     expiresIn: "7d",
@@ -35,6 +38,8 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    console.log("Loaded SECRET_KEY:", process.env.SECRET_KEY);
+
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ error: "All fields are required" });
